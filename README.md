@@ -35,6 +35,6 @@ const App = function(){
 ```
 上面的jsx语法实际上是简化代码的书写，webpack+babel将jsx代码转换为浏览器能够识别的普通js代码。
 本质上通过[babel](https://babeljs.io/repl)可以看到jsx代码转换后的js代码
-![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part-1-JSX/1.png)
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part-1-JSX/image/jsx.png)
 
 第二步：
