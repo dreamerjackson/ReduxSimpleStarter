@@ -26,3 +26,7 @@ Click [here](https://github.com/StephenGrider/ReactStarter/releases) then downlo
 
 # React学习笔记
 第一步 删除src文件，新建一个src文件，新建index.js
+
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part-1-JSX/1.png)
+第二步：
