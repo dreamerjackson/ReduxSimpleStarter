@@ -1,4 +1,4 @@
-# ReduxSimpleStarter
+<!-- # ReduxSimpleStarter
 
 Interested in learning [Redux](https://www.udemy.com/react-redux/)?
 
@@ -22,4 +22,7 @@ Click [here](https://github.com/StephenGrider/ReactStarter/releases) then downlo
 ```
 > npm install
 > npm start
-```
+``` -->
+
+# React学习笔记
+第一步 删除src文件，新建一个src文件，新建index.js
