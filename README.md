@@ -110,10 +110,9 @@ src/search_bar.js:
 //class SearchBar 声明一个类，extends Component继承了React.Component，从而可以使用它的众多功能
 
 ```
-//{Component}等价于导入了React.Component
 import React,{Component} from 'react';
 
-//替换function component
+//function component
  const SearchBar = ()=>{
 
    return <input />;
@@ -121,7 +120,9 @@ import React,{Component} from 'react';
 ```
  替换为：
 ```
+//{Component}等价于导入了React.Component
 import React,{Component} from 'react';
+
 class SearchBar extends Component{
   //必须要有render代表提交内部的jsx语句。
   render(){
@@ -130,7 +131,8 @@ class SearchBar extends Component{
 }
 ```
 ###   2、事件处理
-  事件监听  --->事件处理
+
+  事件监听  --->  事件处理
   ```
   class SearchBar extends Component{
     //必须要有render代表提交内部的jsx语句。
@@ -151,12 +153,12 @@ class SearchBar extends Component{
 
 ###   3、事件处理更先进写法：匿名函数
 
-
+```
 class SearchBar extends Component{
   //必须要有render代表提交内部的jsx语句。
   render(){
     //onChange为input的属性，代表监听一个事件，即当input框的文字改变后会促发匿名函数
     return <input onChange = {event => console.log(event.target.value)} />;
   }
-
 }
+```
