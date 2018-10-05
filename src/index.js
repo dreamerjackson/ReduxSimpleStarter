@@ -3,8 +3,13 @@ import React from 'react';
 
 //导入react-dom，目的是将component提交到页面上
 import ReactDom from 'react-dom';
+//导入自己的文件必须要有相对路径，这区别于npm install安装的包，直接就可以在node_modules当中查找
+import SearchBar from './component/search_bar'
 
+//youtube-key
 const key = 'AIzaSyAHfD6VFhwFM6MWJdpatWAmT5ijRonmc2k';
+
+
 //create a new component .this component should produce some html
 //const 和var相同，声明一个变量，但是不能更改，例如，不能够再写上App = 5；
 
@@ -12,8 +17,17 @@ const key = 'AIzaSyAHfD6VFhwFM6MWJdpatWAmT5ijRonmc2k';
 //   return <div>Hi!</div>;
 // }
 //替换为es6，匿名函数
+// const App = ()=>{
+//   return <div>Hi!</div>;
+// }
+
+//替换为使用导入的component
 const App = ()=>{
-  return <div>Hi!</div>;
+  return(
+    <div>
+    <SearchBar />
+    </div>
+  );
 }
 
 

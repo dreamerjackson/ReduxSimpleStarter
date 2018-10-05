@@ -62,5 +62,39 @@ const App = function(){
 ### src/index.js中，加入youtube-key const key = 'XXX';,并且安装package，可以通过key搜索youtube
 
 ```
+//save代表本地安装，相对于-g全局安装。
 >npm install --save youtube-api-search
 ```
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part2-react-component/image/youtube-package.png)
+
+
+## 介绍component展现在页面中的逻辑
+1、search_bar.js中写入了component，并导出
+```
+//必须要导入React，记住即便是最简单的jsx语法  return <input />;，也是调用了React.createElement
+import React from 'react';
+
+const SearchBar = ()=>{
+
+  return <input />;
+};
+
+//文件之间是相互独立的，我们必须要使用导出功能，这样其他文件才能够导入我们的模块。
+export default SearchBar;
+
+```
+
+2、src/index.js,中，导入SearchBar的component，并整合提交到页面中。
+```
+import SearchBar from './component/search_bar'
+const App = ()=>{
+  return(
+    <div>
+    <SearchBar />
+    </div>
+  );
+}
+```
+
+ 此步骤完成，在页面中显示一个input框。
