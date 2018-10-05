@@ -87,7 +87,9 @@ export default SearchBar;
 
 2、src/index.js,中，导入SearchBar的component，并整合提交到页面中。
 ```
+//导入自己的文件必须要有相对路径，这区别于npm install安装的包，直接就可以在node_modules当中查找
 import SearchBar from './component/search_bar'
+
 const App = ()=>{
   return(
     <div>
