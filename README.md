@@ -46,17 +46,21 @@ const App = function(){
 本质上通过[babel](https://babeljs.io/repl)可以看到jsx代码转换后的js代码 -->
 
 ### react本身就是由各种component组成的，所以做一个项目的第一步就是将不同的部分分割为不同的component
+
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part2-react-component/image/component.png)
 
 ### 新建src/component文件夹，新建search_bar.js、video_detail.js、video_list_item.js、video_list.js
+
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part2-react-component/image/component-structure.png)
 
 ### 注册google-cloud-youtube-key
+
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part2-react-component/image/google-cloud.png)
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part2-react-component/image/youtube-key.png)
 
-### src/index.js中，加入youtube-key,并且安装package，可以通过key搜索youtube
+### src/index.js中，加入youtube-key const key = 'XXX';,并且安装package，可以通过key搜索youtube
+
 ```
 >npm install --save youtube-api-search
 ```
