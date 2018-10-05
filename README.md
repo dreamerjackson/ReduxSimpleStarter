@@ -282,7 +282,7 @@ constructor(props){
 }
 ```
 
-### 1、主component与子component信息的传递
+### 2、主component与子component信息的传递
 src/component/video_list.js:
 
 ```js
