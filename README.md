@@ -200,3 +200,35 @@ class SearchBar extends Component{
 
 ```
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part4-state/image/inputofvalue.png)
+
+
+###   2、深入state
+
+注意这中间的逻辑
+
+```js
+
+class SearchBar extends Component{
+  constructor(props){
+      super(props);
+      this.state ={term :''};
+
+  }
+
+
+  render(){
+    return (
+      <div>
+          <input
+          //2.状态term的改变后，重新提交render，就会在input框显示出最新的this.state.term
+          value = {this.state.term}
+          //1.事件改变带来state变量的改变。
+          onChange = {event => this.setState({term:event.target.value})}
+           />
+      </div>
+    );
+
+  }
+}
+
+```

@@ -53,9 +53,10 @@ class SearchBar extends Component{
     //  input of value:{this.state.term} ,打印出this.state.term的值
     return (
       <div>
-          <input onChange = {event => this.setState({term:event.target.value})} />
-
-          input of value:{this.state.term}
+          <input
+          value = {this.state.term}
+          onChange = {event => this.setState({term:event.target.value})}
+           />
       </div>
     );
 
