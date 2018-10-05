@@ -6,9 +6,15 @@ import ReactDom from 'react-dom';
 //导入自己的文件必须要有相对路径，这区别于npm install安装的包，直接就可以在node_modules当中查找
 import SearchBar from './component/search_bar'
 
+//导入查询youtube的包
+import YTSearch from 'youtube-api-search';
 //youtube-key
-const key = 'AIzaSyAHfD6VFhwFM6MWJdpatWAmT5ijRonmc2k';
+const API_KEY = 'AIzaSyAHfD6VFhwFM6MWJdpatWAmT5ijRonmc2k';
 
+//查询youtube数据，传递API_KEY，以及搜索的关键词。同时，后面有一个回调函数来处理查询到的值。
+YTSearch({key:API_KEY,term:'surfboards'},function(data){
+  console.log(data);
+});
 
 //create a new component .this component should produce some html
 //const 和var相同，声明一个变量，但是不能更改，例如，不能够再写上App = 5；

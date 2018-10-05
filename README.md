@@ -232,3 +232,24 @@ class SearchBar extends Component{
 }
 
 ```
+
+
+###   3、查询youtube并打印出查到的数据
+
+
+
+```js
+
+//导入查询youtube的包
+import YTSearch from 'youtube-api-search';
+//youtube-key
+const API_KEY = 'AIzaSyAHfD6VFhwFM6MWJdpatWAmT5ijRonmc2k';
+
+//查询youtube数据，传递API_KEY，以及搜索的关键词。同时，后面有一个回调函数来处理查询到的值。
+YTSearch({key:API_KEY,term:'surfboards'},function(data){
+  console.log(data);
+});
+
+```
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part4-state/image/youtube-data.png)
