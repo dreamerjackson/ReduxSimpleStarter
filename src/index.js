@@ -4,6 +4,7 @@ import React from 'react';
 //导入react-dom，目的是将component提交到页面上
 import ReactDom from 'react-dom';
 
+const key = 'AIzaSyAHfD6VFhwFM6MWJdpatWAmT5ijRonmc2k';
 //create a new component .this component should produce some html
 //const 和var相同，声明一个变量，但是不能更改，例如，不能够再写上App = 5；
 
