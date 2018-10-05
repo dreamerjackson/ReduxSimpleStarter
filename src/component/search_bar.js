@@ -12,6 +12,7 @@ import React,{Component} from 'react';
 
 
 //替换function component为更强大的class component，function component要更加的简单一些，但是class component里面不仅有state，可以与其他的component进行交互
+
 //class SearchBar 声明一个类，extends Component继承了React.Component，从而可以使用它的众多功能
 class SearchBar extends Component{
   //必须要有render代表提交内部的jsx语句。
@@ -32,10 +33,32 @@ class SearchBar extends Component{
 
 //上面的替换为匿名函数：
 class SearchBar extends Component{
+
+
+  constructor(props){
+    //调用父类的构造函数。也就是React.Component的构造函数
+      super(props);
+//state是一个普通的js对象，只存在于任何的class component中 State状态的改变会带来component以及子component的重新render
+//state其实是一个对象，初始化一个state中变量term，并赋值为空。可以用来记录搜索框中文字的改变。
+
+//只有在构造函数中，我们才能够用下面的方式来初始化state
+      this.state ={term :''};
+
+  }
+
   //必须要有render代表提交内部的jsx语句。
   render(){
     //onChange为input的属性，代表监听一个事件，即当input框的文字改变后会促发匿名函数
-    return <input onChange = {event => console.log(event.target.value)} />;
+    //this.setState改变state的状态
+    //  input of value:{this.state.term} ,打印出this.state.term的值
+    return (
+      <div>
+          <input onChange = {event => this.setState({term:event.target.value})} />
+
+          input of value:{this.state.term}
+      </div>
+    );
+
   }
 }
 
