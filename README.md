@@ -106,10 +106,9 @@ const App = ()=>{
 ###   1、替换function Component为 class Component
 src/search_bar.js:
 
+```js
 //替换function component为更强大的class component，function component要更加的简单一些，但是class component里面不仅有state，可以与其他的component进行交互<br>
 //class SearchBar 声明一个类，extends Component继承了React.Component，从而可以使用它的众多功能
-
-```
 import React,{Component} from 'react';
 
 //function component
@@ -119,7 +118,7 @@ import React,{Component} from 'react';
  };
 ```
  替换为：
-```
+```js
 //{Component}等价于导入了React.Component
 import React,{Component} from 'react';
 
@@ -133,7 +132,7 @@ class SearchBar extends Component{
 ###   2、事件处理
 
   事件监听  --->  事件处理
-  ```
+  ```js
   class SearchBar extends Component{
     //必须要有render代表提交内部的jsx语句。
     render(){
@@ -153,7 +152,7 @@ class SearchBar extends Component{
 
 ###   3、事件处理更先进写法：匿名函数
 
-```
+```js
 class SearchBar extends Component{
   //必须要有render代表提交内部的jsx语句。
   render(){
