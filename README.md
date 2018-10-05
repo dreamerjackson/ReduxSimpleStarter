@@ -45,7 +45,7 @@ const App = function(){
 上面的jsx语法实际上是简化代码的书写，webpack+babel将jsx代码转换为浏览器能够识别的普通js代码。
 本质上通过[babel](https://babeljs.io/repl)可以看到jsx代码转换后的js代码 -->
 
-### react本身就是由各种component组成的，所以做一个项目的第一步就是将不同的部分分割为不同的component
+<!-- ### react本身就是由各种component组成的，所以做一个项目的第一步就是将不同的部分分割为不同的component
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part2-react-component/image/component.png)
 
@@ -99,4 +99,64 @@ const App = ()=>{
 }
 ```
 
- 此步骤完成，在页面中显示一个input框。
+ 此步骤完成，在页面中显示一个input框。 -->
+
+
+
+###   1、替换function Component为 class Component
+src/search_bar.js:
+
+//替换function component为更强大的class component，function component要更加的简单一些，但是class component里面不仅有state，可以与其他的component进行交互
+//class SearchBar 声明一个类，extends Component继承了React.Component，从而可以使用它的众多功能
+
+```
+//{Component}等价于导入了React.Component
+import React,{Component} from 'react';
+
+//替换function component
+ const SearchBar = ()=>{
+
+   return <input />;
+ };
+```
+ 替换为：
+```
+import React,{Component} from 'react';
+class SearchBar extends Component{
+  //必须要有render代表提交内部的jsx语句。
+  render(){
+    return <input />;
+  }
+}
+```
+###   2、事件处理
+  事件监听  --->事件处理
+  ```
+  class SearchBar extends Component{
+    //必须要有render代表提交内部的jsx语句。
+    render(){
+      //onChange为input的属性，代表监听一个事件，即当input框的文字改变后会促发onInputChange方法
+      return <input onChange = {this.onInputChange} />;
+    }
+
+  //onInputChange是当事件触发后调用的自定义方法，event是一个事件参数，名字可以随意，它是传递过来的事件的对象
+    onInputChange(event){
+      //事件触发后打印出文字
+      console.log(event.target.value);
+    }
+
+  }
+  ```
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part3-classComponent/image/log-event.png)
+
+###   3、事件处理更先进写法：匿名函数
+
+
+class SearchBar extends Component{
+  //必须要有render代表提交内部的jsx语句。
+  render(){
+    //onChange为input的属性，代表监听一个事件，即当input框的文字改变后会促发匿名函数
+    return <input onChange = {event => console.log(event.target.value)} />;
+  }
+
+}
