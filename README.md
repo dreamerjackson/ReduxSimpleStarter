@@ -106,7 +106,7 @@ const App = ()=>{
 ###   1、替换function Component为 class Component
 src/search_bar.js:
 
-//替换function component为更强大的class component，function component要更加的简单一些，但是class component里面不仅有state，可以与其他的component进行交互
+//替换function component为更强大的class component，function component要更加的简单一些，但是class component里面不仅有state，可以与其他的component进行交互<br>
 //class SearchBar 声明一个类，extends Component继承了React.Component，从而可以使用它的众多功能
 
 ```
