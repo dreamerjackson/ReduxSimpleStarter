@@ -163,7 +163,7 @@ class SearchBar extends Component{
 ```
 -->
 
-###   1、state
+<!-- ###   1、state
 state是一个普通的js对象，只存在于任何的class component中 State状态的改变会带来component以及子component的重新render<br>
 state其实是一个对象，初始化一个state中变量term，并赋值为空。可以用来记录搜索框中文字的改变。<br>
 
@@ -252,4 +252,69 @@ YTSearch({key:API_KEY,term:'surfboards'},function(data){
 
 ```
 
-![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part4-state/image/youtube-data.png)
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part4-state/image/youtube-data.png) -->
+
+###   1、主component替换为class component
+```js
+
+src/index.js
+//替换为class component
+class App extends Component{
+
+constructor(props){
+  super(props);
+  this.state = { videos : [] };
+
+  //查询youtube数据，传递API_KEY，以及搜索的关键词。同时，后面有一个回调函数来处理查询到的值。
+  YTSearch({key:API_KEY,term:'surfboards'},(data)=>{ //注意这个地方必须为匿名函数，不然this就会标示不了
+    this.setState({videos:data});   //注意，如果data修改为videos，由于同名，es6中，可以直接写为：this.setState({videos});
+  });
+}
+
+
+  render(){
+    return(
+      <div>
+      <SearchBar />
+      </div>
+    );
+  }
+}
+```
+
+### 1、主component与子component信息的传递
+src/component/video_list.js:
+
+```js
+import React from 'react';
+//如何实现component之间相互传递信息，在这里有一个参数peops
+const VideoList = (props) =>{
+
+//className是一个列名，和传统html中的class相同。这里使用了bootstrap库中的类名。
+//注意VideoList是一个function component，如果其是一个class，那么可以使用this.props的方式得到参数
+  return(
+      <ul className="col-md-4 list-group">
+         {props.videos.length}
+      </ul>
+  );
+};
+//导出
+export default VideoList;
+```
+
+
+src/index.js:
+
+```js
+import VideoList from './component/video_list'；
+
+render(){
+  return(
+    <div>
+    <SearchBar />
+    <VideoList videos={this.state.videos} /> //参数的传递，将查到的YouTube信息传递给VideoList component，
+    </div>
+  );
+}
+}
+```

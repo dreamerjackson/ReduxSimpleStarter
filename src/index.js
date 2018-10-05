@@ -1,20 +1,17 @@
 //导入react模块
-import React from 'react';
+import React,{Component} from 'react';
 
 //导入react-dom，目的是将component提交到页面上
 import ReactDom from 'react-dom';
 //导入自己的文件必须要有相对路径，这区别于npm install安装的包，直接就可以在node_modules当中查找
-import SearchBar from './component/search_bar'
-
+import SearchBar from './component/search_bar';
+import VideoList from './component/video_list';
 //导入查询youtube的包
 import YTSearch from 'youtube-api-search';
 //youtube-key
 const API_KEY = 'AIzaSyAHfD6VFhwFM6MWJdpatWAmT5ijRonmc2k';
 
-//查询youtube数据，传递API_KEY，以及搜索的关键词。同时，后面有一个回调函数来处理查询到的值。
-YTSearch({key:API_KEY,term:'surfboards'},function(data){
-  console.log(data);
-});
+
 
 //create a new component .this component should produce some html
 //const 和var相同，声明一个变量，但是不能更改，例如，不能够再写上App = 5；
@@ -28,13 +25,42 @@ YTSearch({key:API_KEY,term:'surfboards'},function(data){
 // }
 
 //替换为使用导入的component
-const App = ()=>{
-  return(
-    <div>
-    <SearchBar />
-    </div>
-  );
+// const App = ()=>{
+//   return(
+//     <div>
+//     <SearchBar />
+//     </div>
+//   );
+// }
+
+
+//替换为class component
+class App extends Component{
+
+constructor(props){
+  super(props);
+  this.state = { videos : [] };
+
+  //查询youtube数据，传递API_KEY，以及搜索的关键词。同时，后面有一个回调函数来处理查询到的值。
+  YTSearch({key:API_KEY,term:'surfboards'},(data)=>{ //注意这个地方必须为匿名函数，不然this就会标示不了
+    this.setState({videos:data});   //注意，如果data修改为videos，由于同名，es6中，可以直接写为：this.setState({videos});
+  });
 }
+
+
+
+//videos={this.state.videos} 参数的传递，将查到的YouTube信息传递给VideoList component，
+  render(){
+    return(
+      <div>
+      <SearchBar />
+      <VideoList videos={this.state.videos} />
+      </div>
+    );
+  }
+}
+
+
 
 
 //Take this component's generateed HTML and put it on the page(in the DOM)
