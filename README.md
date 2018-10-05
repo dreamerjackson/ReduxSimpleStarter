@@ -53,7 +53,7 @@ const App = function(){
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part2-react-component/image/component-structure.png)
 
-### 注册google-cloud-youtube-key
+### 注册google-cloud-youtube-key
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part2-react-component/image/google-cloud.png)
 
