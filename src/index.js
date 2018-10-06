@@ -1,6 +1,8 @@
 //导入react模块
-import React,{Component} from 'react';
 
+
+import React,{Component} from 'react';
+import _ from 'lodash';
 //导入react-dom，目的是将component提交到页面上
 import ReactDom from 'react-dom';
 //导入自己的文件必须要有相对路径，这区别于npm install安装的包，直接就可以在node_modules当中查找
@@ -41,22 +43,29 @@ class App extends Component{
 constructor(props){
   super(props);
   this.state = { videos : [],selectVideo:null};
+    this.videoSearch('surfboards');
 
+}
+
+//封装youtube查询方法
+videoSearch(term){
   //查询youtube数据，传递API_KEY，以及搜索的关键词。同时，后面有一个回调函数来处理查询到的值。
-  YTSearch({key:API_KEY,term:'surfboards'},(data)=>{ //注意这个地方必须为匿名函数，不然this就会标示不了
+  YTSearch({key:API_KEY,term:term},(data)=>{ //注意这个地方必须为匿名函数，不然this就会标示不了
     this.setState({videos:data,selectVideo:data[0]});   //注意，如果data修改为videos，由于同名，es6中，可以直接写为：this.setState({videos});
 
   });
 }
 
-
-
 //videos={this.state.videos} 参数的传递，将查到的YouTube信息传递给VideoList component，
 //    <VideoDetail video={this.state.videos[0]}/>由于一开始的时候，网络还没有接收到videos，那么获取videos[0]就会报错，所以必须要处理错误在VideoDetail中
   render(){
+      {/* 延迟300毫秒才会调用一次该函数 */}
+    const videoSearch = _.debounce((term) => {this.videoSearch(term)},300);
+
     return(
       <div>
-      <SearchBar />
+        {/* 修改 <SearchBar onSearchTermChange = {term => this.videoSearch(term)}/> 为 */}
+      <SearchBar onSearchTermChange = {videoSearch}/>
       {/* 修改 <VideoDetail video={this.state.videos[0]}/>  为 */}
       <VideoDetail video={this.state.selectVideo}/>
       <VideoList videos={this.state.videos}  onVideoSelect={selectedVideo =>{this.setState({selectVideo:selectedVideo})}}  />

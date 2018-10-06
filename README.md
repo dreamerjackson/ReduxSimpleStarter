@@ -443,7 +443,12 @@ src/component/video_detail.js：
   ```
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part6-map/image/video-iframe.png) -->
 
-### 1、主component中，添加state：selectVideo是我要保存的选中的视频的信息对象
+
+
+
+
+
+<!-- ### 1、主component中，添加state：selectVideo是我要保存的选中的视频的信息对象
 
 每一次selectVideo中信息的改变，state变化会重新提交，带来videoDetail中信息的改变。问题在于，当处理点击事件时候，如何修改selectVideo的状态？
 
@@ -587,4 +592,72 @@ style/style.css:
 
 
 
+``` -->
+
+
+### 1、查询逻辑和点击事件的套路一样：
+
+src/index.js:
+
+主component中：封装youtube搜索方法：
+
+
+```js
+//封装youtube查询方法
+videoSearch(term){
+  //查询youtube数据，传递API_KEY，以及搜索的关键词。同时，后面有一个回调函数来处理查询到的值。
+  YTSearch({key:API_KEY,term:term},(data)=>{ //注意这个地方必须为匿名函数，不然this就会标示不了
+    this.setState({videos:data,selectVideo:data[0]});   //注意，如果data修改为videos，由于同名，es6中，可以直接写为：this.setState({videos});
+
+  });
+}
+```
+
+并在构造函数中调用搜索方法,固定搜索surfboards
+
+```js
+constructor(props){
+  super(props);
+  this.state = { videos : [],selectVideo:null};
+    this.videoSearch('surfboards');
+
+}
+```
+
+SearchBar传递回调函数
+```js
+  <SearchBar onSearchTermChange = {term => this.videoSearch(term)}/>
+```
+
+src/component/search_bar.js:
+```js
+constructor(props){
+
+    super(props);
+    this.state ={term :''};
+
+}
+
+//必须要有render代表提交内部的jsx语句。
+render(){
+  return (
+    <div className="search-bar">
+        <input
+        value = {this.state.term}
+        {/* 促发改变时间即会调用onChangeInput方法，*/}
+        onChange = {event =>   this.onChangeInput(event.target.value)}
+         />
+    </div>
+  );
+}
+//改变本类中的state，调用主component中的回调函数，从而重新查询，改变主component state 又从新提交reander。
+onChangeInput(term){
+  this.setState({term:term})
+  this.props.onSearchTermChange(term);
+}
+
+```
+
+```
+>npm install --save lodash
 ```
