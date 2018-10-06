@@ -318,7 +318,7 @@ render(){
 }
 }
 ``` -->
-## 得到youtube中5个视频信息后，使用map遍历处理每个视频信息
+<!-- ## 得到youtube中5个视频信息后，使用map遍历处理每个视频信息
 
 ### 1、 在js中的map
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part6-map/image/map.png)
@@ -390,7 +390,7 @@ src/component/video_detail.js：
 import React from 'react';
 
 const VideoDetail =({video})=>{
-  const videoId = video.id.videoId;
+  const videoId = video.id.videoId;  //获取id
   const url = `https://www.youtube.com/embed/${videoId}`;//等价于“https://www.youtube.com/embed/” + videoId
 
   return (
@@ -424,8 +424,8 @@ render(){
   return(
     <div>
     <SearchBar />
-    //默认第1个视频显示出来
-    <VideoDetail video={this.state.videos[0]}/>
+    /*修改 <VideoDetail video={this.state.videos[0]}/>  为   */
+    <VideoDetail video={this.state.selectCideos[0]}/>
     <VideoList videos={this.state.videos} />
     </div>
   );
@@ -441,7 +441,116 @@ src/component/video_detail.js：
   }
 
   ```
-![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part6-map/image/video-iframe.png)
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part6-map/image/video-iframe.png) -->
+
+### 1、主component中，添加state：selectVideo是我要保存的选中的视频的信息对象
+
+每一次selectVideo中信息的改变，state变化会重新提交，带来videoDetail中信息的改变。问题在于，当处理点击事件时候，如何修改selectVideo的状态？
+
+src/index.js
+```js
+//替换为class component
+class App extends Component{
+//selectVideo是我要保存的选中的视频的信息对象
+constructor(props){
+  super(props);
+  this.state = { videos : [],selectVideo:null};
+
+  //查询youtube数据，传递API_KEY，以及搜索的关键词。同时，后面有一个回调函数来处理查询到的值。
+  YTSearch({key:API_KEY,term:'surfboards'},(data)=>{ //注意这个地方必须为匿名函数，不然this就会标示不了
+    this.setState({videos:data,selectVideo:data[0]});   //注意，如果data修改为videos，由于同名，es6中，可以直接写为：this.setState({videos});
+
+  });
+}
+
+//videos={this.state.videos} 参数的传递，将查到的YouTube信息传递给VideoList component，
+//    <VideoDetail video={this.state.videos[0]}/>由于一开始的时候，网络还没有接收到videos，那么获取videos[0]就会报错，所以必须要处理错误在VideoDetail中
+  render(){
+    return(
+      <div>
+      <SearchBar />
+      {/* 修改 <VideoDetail video={this.state.videos[0]}/>  为 */}
+      <VideoDetail video={this.state.selectVideo}/>
+      <VideoList videos={this.state.videos} />
+      </div>
+    );
+  }
+}
+
+```
+
+### 2、callback处理点击事件
+
+src/index.js:
+
+```js
+render(){
+  return(
+    <div>
+    <SearchBar />
+
+    <VideoDetail video={this.state.selectVideo}/>
+
+      {/*  传递的onVideoSelect是一个回调函数，传递给 VideoList*/}
+    <VideoList videos={this.state.videos}  onVideoSelect={selectedVideo =>{this.setState({selectVideo:selectedVideo})}}  />
+    </div>
+  );
+}
+}
+
+```
+=======================================
+src/component/video_list.js：
+```js
+const VideoList = (props) =>{
+
+const videoItems = props.videos.map((video)=>{
+  //onVideoSelect 回调函数，传递给videoItems
+  return <VideoListItem onVideoSelect={props.onVideoSelect} key={video.etag} video = {video} />
+});
+  return(
+      <ul className="col-md-4 list-group">
+         {videoItems}
+      </ul>
+  );
+};
+
+```
+
+=======================================
+
+
+
+src/component/video_list_item.js：
+```js
+import React from 'react';
+
+const VideoListItem = ({video,onVideoSelect}) =>{
+  const imageUrl = video.snippet.thumbnails.default.url;
+
+  return (
+
+      {/*  当触发视频的点击事件之后，就会调用onVideoSelect回调函数，参数为当前视频的video对象，实现了修改主component中state状态selectVideo的功能，而state状态selectVideo的功能的变化，就会带来从新提交reander，将新的state状态selectVideo的功能传递给videoDetail component，实现了点击就切换视频的功能*/}
+    <li  onClick={()=>onVideoSelect(video)} className = "list-group-item">
+      <div className ="video-list media">
+          <div className="media-left">
+          <img className="media-object" src={imageUrl} />
+          </div>
+          <div className="media-body">
+            <div className="media-heading">{video.snippet.title}</div>
+          </div>
+      </div>
+    </li>
+  );
+};
+
+```
+
+
+
+
+
+
 
 
 

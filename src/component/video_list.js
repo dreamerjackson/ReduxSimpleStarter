@@ -7,7 +7,7 @@ const VideoList = (props) =>{
 //props.videos为所有的视频信息，使用map遍历每一个视频信息，并传递到VideoListItem这个component中单独的处理。返回的videoItems变量其实是一个component的数组
 //video.etag是youtube信息中的属性，唯一标示了不同的视频。用作key键是为了区分不同的component，从而能够去调用
 const videoItems = props.videos.map((video)=>{
-  return <VideoListItem  key={video.etag} video = {video} />
+  return <VideoListItem onVideoSelect={props.onVideoSelect} key={video.etag} video = {video} />
 });
 
 

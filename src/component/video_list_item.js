@@ -11,14 +11,14 @@ export default VideoListItem;
 //更新
 import React from 'react';
 //和上面对比，要想直接获取到上面props.video，可以直接({video}),等价于video = props.video
-const VideoListItem = ({video}) =>{
+const VideoListItem = ({video,onVideoSelect}) =>{
 //获取youtube信息中的图片url
   const imageUrl = video.snippet.thumbnails.default.url;
 
 
   //下面深度使用了booststrap库。俩实现视频的框架
   return (
-    <li className = "list-group-item">
+    <li  onClick={()=>onVideoSelect(video)} className = "list-group-item">
       <div className ="video-list media">
           <div className="media-left">
           <img className="media-object" src={imageUrl} />

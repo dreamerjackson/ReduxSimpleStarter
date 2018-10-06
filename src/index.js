@@ -37,14 +37,15 @@ const API_KEY = 'AIzaSyAHfD6VFhwFM6MWJdpatWAmT5ijRonmc2k';
 
 //替换为class component
 class App extends Component{
-
+//selectVideo是我要保存的选中的视频的信息对象
 constructor(props){
   super(props);
-  this.state = { videos : [] };
+  this.state = { videos : [],selectVideo:null};
 
   //查询youtube数据，传递API_KEY，以及搜索的关键词。同时，后面有一个回调函数来处理查询到的值。
   YTSearch({key:API_KEY,term:'surfboards'},(data)=>{ //注意这个地方必须为匿名函数，不然this就会标示不了
-    this.setState({videos:data});   //注意，如果data修改为videos，由于同名，es6中，可以直接写为：this.setState({videos});
+    this.setState({videos:data,selectVideo:data[0]});   //注意，如果data修改为videos，由于同名，es6中，可以直接写为：this.setState({videos});
+
   });
 }
 
@@ -56,8 +57,9 @@ constructor(props){
     return(
       <div>
       <SearchBar />
-      <VideoDetail video={this.state.videos[0]}/>
-      <VideoList videos={this.state.videos} />
+      {/* 修改 <VideoDetail video={this.state.videos[0]}/>  为 */}
+      <VideoDetail video={this.state.selectVideo}/>
+      <VideoList videos={this.state.videos}  onVideoSelect={selectedVideo =>{this.setState({selectVideo:selectedVideo})}}  />
       </div>
     );
   }
