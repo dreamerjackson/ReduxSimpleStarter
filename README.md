@@ -318,7 +318,7 @@ render(){
 }
 }
 ``` -->
-##得到youtube中5个视频信息后，使用map遍历处理每个视频信息
+## 得到youtube中5个视频信息后，使用map遍历处理每个视频信息
 
 ### 1、 在js中的map
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part6-map/image/map.png)
@@ -424,6 +424,7 @@ render(){
   return(
     <div>
     <SearchBar />
+    //默认第1个视频显示出来
     <VideoDetail video={this.state.videos[0]}/>
     <VideoList videos={this.state.videos} />
     </div>
@@ -440,7 +441,7 @@ src/component/video_detail.js：
   }
 
   ```
-![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part6-map/image/video-booststrap.png)
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part6-map/image/video-iframe.png)
 
 
 
