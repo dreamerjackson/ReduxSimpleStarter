@@ -16,7 +16,7 @@ const VideoListItem = ({video,onVideoSelect}) =>{
   const imageUrl = video.snippet.thumbnails.default.url;
 
 
-  //下面深度使用了booststrap库。俩实现视频的框架
+  //下面深度使用了booststrap库。俩实现视频的框架  media 与 media-body boststrap库使用：https://www.w3schools.com/bootstrap4 
   return (
     <li  onClick={()=>onVideoSelect(video)} className = "list-group-item">
       <div className ="video-list media">

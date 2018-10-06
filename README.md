@@ -548,3 +548,43 @@ const VideoListItem = ({video,onVideoSelect}) =>{
 };
 
 ```
+### 3、 自定义样式：
+style/style.css:
+```css
+
+/* 搜索框 */
+.search-bar{
+  margin:20px;
+  /* text-align: center; */
+}
+/* 搜索框 */
+.search-bar input{
+
+  width:75%;
+}
+
+/* .video-item img{
+  max-width: 64px;
+} */
+
+
+/* 视频细节描述 */
+.video-detail .details{
+  margin-top:10px;
+  padding: 10px;
+  boder:1px solid #ddd;
+  boder-radius:4px;
+}
+
+/* 视频列表框 */
+.list-group-item{
+  cursor:pointer;
+}
+/* 视频列表框，伪类 */
+.list-group-item:hover{
+  background: #eee;
+}
+
+
+
+```

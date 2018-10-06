@@ -8,7 +8,7 @@ const VideoDetail =({video})=>{
   }
   const videoId = video.id.videoId;
   const url = `https://www.youtube.com/embed/${videoId}`;//等价于“https://www.youtube.com/embed/” + videoId
-
+//参考https://getbootstrap.com/docs/4.1/utilities/embed/
   return (
       <div className="video-detail col-md-8">
         <div className="embed-responsive embed-responsive-16by9">
