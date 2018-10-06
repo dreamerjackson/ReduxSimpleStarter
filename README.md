@@ -254,7 +254,7 @@ YTSearch({key:API_KEY,term:'surfboards'},function(data){
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part4-state/image/youtube-data.png) -->
 
-###   1、主component替换为class component
+<!-- ###   1、主component替换为class component
 ```js
 
 src/index.js
@@ -317,4 +317,132 @@ render(){
   );
 }
 }
+``` -->
+##得到youtube中5个视频信息后，使用map遍历处理每个视频信息
+
+### 1、 在js中的map
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part6-map/image/map.png)
+
+### 2、 react中使用map遍历信息，并返回component数组
+src/component/video_list.js
+```js
+import VideoListItem from './video_list_item';
+//如何实现component之间相互传递信息，在这里有一个参数peops
+const VideoList = (props) =>{
+
+
+//props.videos为所有的视频信息，使用map遍历每一个视频信息，并传递到VideoListItem这个component中单独的处理。返回的videoItems变量其实是一个component的数组
+const videoItems = props.videos.map((video)=>{
+  return <VideoListItem video = {video} />
+});
+
+
+//className是一个列名，和传统html中的class相同。这里使用了bootstrap库中的类名。
+//注意VideoList是一个function component，如果其是一个class，那么可以使用this.props的方式得到参数
+
+// {videoItems}是一个component的数组，react能够识别到并提交。
+  return(
+      <ul className="col-md-4 list-group">
+         {videoItems}
+      </ul>
+  );
+};
+
+```
+
+
+
+
+### 3、 使用了booststrap库。实现视频的框架
+src/component/video_list_item.js
+
+```js
+const VideoListItem = ({video}) =>{
+//获取youtube信息中的图片url
+  const imageUrl = video.snippet.thumbnails.default.url;
+
+
+  //下面深度使用了booststrap库。实现视频的框架，{video.snippet.title}获取视频的标题
+  return (
+    <li className = "list-group-item">
+      <div className ="video-list media">
+          <div className="media-left">
+          <img className="media-object" src={imageUrl} />
+          </div>
+          <div className="media-body">
+            <div className="media-heading">{video.snippet.title}</div>
+          </div>
+      </div>
+    </li>
+  );
+};
+
+
+```
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part6-map/image/video-booststrap.png)
+
+
+
+
+### 4、  添加视频框，细节表述
+src/component/video_detail.js：
+```js
+import React from 'react';
+
+const VideoDetail =({video})=>{
+  const videoId = video.id.videoId;
+  const url = `https://www.youtube.com/embed/${videoId}`;//等价于“https://www.youtube.com/embed/” + videoId
+
+  return (
+      <div className="video-detail col-md-8">
+        <div className="embed-responsive embed-responsive-16by9">
+          <iframe  src={url} className="embed-responsive-item">
+        </div>
+
+        <div className ="details">
+          <div>{video.snippet.title}</div>
+          <div>{video.snippet.description}</div>
+        </div>
+      </div>
+
+  );
+
+
+
+};
+
+
+export default VideoDetail;
+```
+
+### 5、  videodetail添加到src/index.js  处理null错误
+
+src/index.js:
+```js
+import VideoDetail from './component/video_detail';
+render(){
+  return(
+    <div>
+    <SearchBar />
+    <VideoDetail video={this.state.videos[0]}/>
+    <VideoList videos={this.state.videos} />
+    </div>
+  );
+}
+}
+```
+
+src/component/video_detail.js：
+```js
+//处理错误，因为刚开始等待youtube网络异步请求需要时间，这时候没有视频
+  if(!video){
+    return <div>正在处理中......</div>;
+  }
+
+  ```
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part6-map/image/video-booststrap.png)
+
+
+
+
 ```

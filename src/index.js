@@ -6,6 +6,7 @@ import ReactDom from 'react-dom';
 //导入自己的文件必须要有相对路径，这区别于npm install安装的包，直接就可以在node_modules当中查找
 import SearchBar from './component/search_bar';
 import VideoList from './component/video_list';
+import VideoDetail from './component/video_detail';
 //导入查询youtube的包
 import YTSearch from 'youtube-api-search';
 //youtube-key
@@ -50,10 +51,12 @@ constructor(props){
 
 
 //videos={this.state.videos} 参数的传递，将查到的YouTube信息传递给VideoList component，
+//    <VideoDetail video={this.state.videos[0]}/>由于一开始的时候，网络还没有接收到videos，那么获取videos[0]就会报错，所以必须要处理错误在VideoDetail中
   render(){
     return(
       <div>
       <SearchBar />
+      <VideoDetail video={this.state.videos[0]}/>
       <VideoList videos={this.state.videos} />
       </div>
     );
