@@ -205,3 +205,52 @@ export default connect(mapStateToProps,mapDispatchToProps)(BookList);
 
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part10-action/images/click.png)
+
+
+### 6.action
+action creactor返回action
+
+```js
+export function selectBook(book){
+  console.log('A book has been selection:',book.title);
+}
+
+```
+
+
+
+### 7.自定义reducer
+
+action creactor返回action，action会转发给所有的reducer，有些reduxer会对其感兴趣，那么我们就需要自定义reducer，判断要处理那些action，哪些不处理。
+
+reducers/reducer_active_book:
+```js
+//自定义的reducer，判断是否对action进行处理，reduxer参数中的两个参数
+
+// 第一个参数代表state，这个状态不是全局的state，而是当前这个reducer的状态，如何理解？例如
+//一个reduxer books：[{title:'javascript'},{title:'Harry Potter'}]，那么[{title:'javascript'},{title:'Harry Potter'}]就是这个reduxer的state，
+
+//所以，直接返回该参数，代表不对state进行任何的修改。如果返回的是其他的值，代表的是更新该state。
+export default function(state=null,action){
+  switch (action.type) {
+    case 'BOOK_SELECTED':
+        return action.payload;
+  }
+    return state;
+}
+```
+添加到redux中：
+reducers/index.js:
+
+```
+import { combineReducers } from 'redux';
+import BookReducer from './reducer_books';
+import ActiveBook from './reducer_active_book';
+const rootReducer = combineReducers({
+  books:BookReducer,
+`  activebook:ActiveBook `
+});
+
+export default rootReducer;
+
+```
