@@ -124,8 +124,84 @@ function mapStateToProps(state){
 //使用connect函数，将react与redux连接在一起，逻辑是，redux中的state传递到mapStateToProps的参数中，而mapStateToProps的返回值作为BookList component中的props属性，可以被使用。
 export default connect(mapStateToProps)(BookList);
 
+```
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part9-reduxStart/images/book-list.png)
+
+## -------------------------------------------------------------------------------------------------
+
+### 5.action creactor
+action creactor 其实就是一个函数，其返回的对象是一个action。
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part10-action/images/action.png)
+
+
+当促发一本书的点击事件的时候，促发了action creator 。 action creator返回 action，  action 转发给所有的reduxer，某一个reduxer对特定的action感兴趣，就会进行处理，更新该redux的状态。
+actions/index.js:书写一个action creator,其就是一个普通的函数，我希望在此小节中，实现点击图书后触发action createor
+```js
+export function selectBook(book){
+  console.log('A book has been selection:',book.title);
+}
 
 ```
 
+container/book-list：
 
-![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part9-reduxStart/images/book-list.png)
+
+
+```js
+import React,{Component} from 'react';
+
+//导入react-redux的连接函数，这是为了将react与redux 的状态连接在一起。
+import {connect} from 'react-redux';
+//导入action createor
+import {selectBook} from '../actions/index';
+
+//绑定action与redux。
+import {bindActionCreators} from 'redux';
+
+class BookList extends Component{
+
+//map遍历返回书的列表
+  renderList(){
+      return this.props.books.map((book)=>{
+
+            return (
+                <li
+                //点击后触发action createor
+                onClick={()=>this.props.selectBook(book)}
+                key={book.title}
+                className="list-group-item">{book.title}</li>
+            );
+
+      });
+  }
+
+  render(){
+      return (
+          <ul className="list-group col-sm-4">
+            {this.renderList()}
+          </ul>
+      )
+  }
+}
+
+//mapStateToProps传递的参数state就是redux中的state ， 其return的值会作为react component中的props。
+function mapStateToProps(state){
+  return {
+    books:state.books
+  };
+}
+
+//mapDispatchToProps传递的参数state就是redux中的state ， 其return的值会作为react component中的props。
+function mapDispatchToProps(dispatch){
+  //bindActionCreators将此action 与 redux 绑定在一起，并且selectBook会传递给container中的props。
+  return bindActionCreators({selectBook:selectBook},dispatch);
+}
+
+
+//使用connect函数，将react与redux连接在一起，逻辑是，redux中的state传递到mapStateToProps的参数中，而mapStateToProps的返回值作为BookList component中的props属性，可以被使用。redux中的state传递到mapDispatchToProps的参数中，而mapDispatchToProps的返回值selectBook作为BookList component中的props属性，可以被使用。并且bindActionCreators方法实现了action 与 redux 绑定在一起。
+export default connect(mapStateToProps,mapDispatchToProps)(BookList);
+```
+
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part10-action/images/click.png)
