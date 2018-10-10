@@ -1,25 +1,38 @@
-# ReduxSimpleStarter
+# Redux 学习笔记
 
-Interested in learning [Redux](https://www.udemy.com/react-redux/)?
 
-### Getting Started
+src/containers/search_bar.js:
 
-There are two methods for getting started with this repo.
 
-#### Familiar with Git?
-Checkout this repo, install dependencies, then start the gulp process with the following:
+```js
+import React,{Component} from 'react';
+export default class SearchBar extends Component{
 
+render(){
+  return (
+    <form className="input-group">
+        <input />
+        <span className="input-group-btn">
+          <button type= "submit" className="btn btn-secondary">Submit</button>
+        </span>
+     </form>
+  );
+}
+}
 ```
-> git clone https://github.com/StephenGrider/ReduxSimpleStarter.git
-> cd ReduxSimpleStarter
-> npm install
-> npm start
+
+component/app.js:
+
+```js
+import React, { Component } from 'react';
+import SearchBar from '../containers/search_bar';
+export default class App extends Component {
+  render() {
+    return (
+    <SearchBar />
+    );
+  }
+}
 ```
 
-#### Not Familiar with Git?
-Click [here](https://github.com/StephenGrider/ReactStarter/releases) then download the .zip file.  Extract the contents of the zip file, then open your terminal, change to the project directory, and:
-
-```
-> npm install
-> npm start
-```
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part11-weatherredux/images/searchbar.png)
