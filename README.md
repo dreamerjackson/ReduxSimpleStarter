@@ -316,3 +316,15 @@ export default class App extends Component {
 ```
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part10-action/images/active-book-select.png)
+
+
+
+
+
+
+###  9.展示激活book
+reducer的对象可以加多个参数：
+{title:'javascript',page:101},
+{title:'Harry Potter',page:35},
+{title:'C++ primire',page:65},
+{title:'Advance react',page:98}
