@@ -1,5 +1,5 @@
 # Redux 学习笔记
-###  构建searchbar
+<!-- ###  构建searchbar
 src/containers/search_bar.js:
 
 ```js
@@ -288,4 +288,40 @@ export default connect(null,mapDispatchToProps)(SearchBar)
 ```
 
 
-![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part11-weatherReducer/images/newyork.png)
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part11-weatherReducer/images/newyork.png) -->
+
+### redux-promise do what?
+
+在src/actions/index.js中,axios异步操作返回的是promis，转发到redux之后，由于redux-promise middleware对promise精心了处理，所以对转发到redux的action进行了一些处理。
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part13-middleware/images/redux-promise.png)
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part13-middleware/images/redux-promise2.png)
+
+src/actions/index.js：
+```js
+import axios from 'axios';
+const API_KEY = "09ec05ac89602c9970393fe760db2bf5";
+const ROOT_URL = `https://api.openweathermap.org/data/2.5/forecast?&appid=${API_KEY}`
+export const FETCH_WEATHER = 'FETCH_WEATHER';
+export function fetchWeather(city){
+  const url = `${ROOT_URL}&q=${city},us`;
+  const request = axios.get(url);
+//打印出promise
+console.log("request:",request);
+  return {
+      type:FETCH_WEATHER,
+      payload:request
+  };
+}
+```
+
+reducers/reducer_weather:
+答应出action对象，不再是promise，这是因为redux-promise middleware
+
+```js
+export default function(state=null,action){
+  //答应出action对象，不再是promise，这是因为redux-promise middleware
+  console.log('Action recieve',action);
+  return state;
+}
+```

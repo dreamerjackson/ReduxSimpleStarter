@@ -16,8 +16,10 @@ export const FETCH_WEATHER = 'FETCH_WEATHER';
 export function fetchWeather(city){
 //网址
   const url = `${ROOT_URL}&q=${city},us`;
-//异步操作
+//异步操作,返回的是promise
   const request = axios.get(url);
+//打印出promise
+console.log("request:",request);
 
   return {
       type:FETCH_WEATHER,
