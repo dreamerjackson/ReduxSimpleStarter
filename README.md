@@ -282,11 +282,10 @@ render(){
 //将action与redux绑定，并且fetchWeather这个action 作为了props的参数。
 function mapDispatchToProps(dispatch){
   return bindActionCreators({fetchWeather},dispatch);
-
 }
 
 export default connect(null,mapDispatchToProps)(SearchBar)
 ```
 
 
-![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part11-weatherReducer/images/event.png)
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part11-weatherReducer/images/newyork.png)
