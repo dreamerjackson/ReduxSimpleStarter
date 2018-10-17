@@ -537,4 +537,4 @@ function mapStateToProps(state){
 export default connect(mapStateToProps)(WeatherList);
 ```
 
-![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part14-weatherList/images/redchat.png)
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part15-searchContainer/images/redchat.png)
