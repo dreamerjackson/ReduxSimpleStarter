@@ -344,8 +344,13 @@ switch (action.type) {
   return state;
 }
 ```
+
+
+
+
 ### weather list  container
-构建一个表格
+构建一个表格:
+src/containers/WeatherList.js:
 ```js
 import React,{Component} from 'react';
 
@@ -388,3 +393,148 @@ function mapStateToProps(state){
 export default connect(mapStateToProps)(WeatherList);
 ```
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part14-weatherList/images/table.png)
+
+
+
+
+
+### 搜索，遍历城市
+搜索城市，触发action，promise由于middleware变为对象，在redux中，添加到 redux state weather当中。在container中获取到redux的state，并且显示出来
+src/containers/WeatherList.js:
+```js
+import React,{Component} from 'react';
+
+import {connect} from 'react-redux';
+
+// container/book-detail.js：
+//
+// 简单的container，将redux中的activeBook state  与 react component连接在一起。一旦点击事件，促发action createor 。action 提交给每一个reduxer，自定义ActiveBook redudxer带来state改变,state改变带来container改变。
+
+
+class WeatherList extends Component{
+//拿到每个城市的数据
+renderWeather(cityData){
+  return(
+    <tr key={cityData.city.name}>
+      <td>{cityData.city.name}</td>
+    </tr>
+  );
+}
+
+
+  render(){
+    return(
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th>City</th>
+            <th>Temperature</th>
+            <th>pressure</th>
+            <th>Humidity</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+          {/*遍历每一个城市，通过函数renderWeather处理每个函数的数据*/}
+          {this.props.weather.map(this.renderWeather)}
+        </tbody>
+
+      </table>
+    );
+  }
+}
+
+function mapStateToProps(state){
+  return {
+    weather:state.weather
+  };
+}
+
+export default connect(mapStateToProps)(WeatherList);
+
+
+```
+
+
+
+
+### 构建图表
+https://github.com/borisyankov/react-sparklines
+
+```
+>npm install --save react-sparklines
+```
+
+src/containers/WeatherList.js:
+
+```js
+import React,{Component} from 'react';
+
+import {connect} from 'react-redux';
+
+import {Sparklines,SparklinesLine} from 'react-sparklines';
+// container/book-detail.js：
+//
+// 简单的container，将redux中的activeBook state  与 react component连接在一起。一旦点击事件，促发action createor 。action 提交给每一个reduxer，自定义ActiveBook redudxer带来state改变,state改变带来container改变。
+class WeatherList extends Component{
+
+//拿到每个城市的数据
+renderWeather(cityData){
+
+  const name = cityData.city.name;
+
+  //构建天气数组、传递到  <Sparklines>中
+  const temps = cityData.list.map(weather=>weather.main.temp);
+
+  //打印 console.log(temps);
+  //构建图表
+  return(
+    <tr key={name}>
+      <td>{name}</td>
+
+      <td>
+      {/* 图表 */}
+          <Sparklines height={120} width={180} data={temps}>
+            <SparklinesLine color="red"/>
+          </Sparklines>
+
+      </td>
+    </tr>
+  );
+}
+
+
+  render(){
+    return(
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th>City</th>
+            <th>Temperature</th>
+            <th>pressure</th>
+            <th>Humidity</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+          {/*遍历每一个城市，通过函数renderWeather处理每个函数的数据*/}
+          {this.props.weather.map(this.renderWeather)}
+        </tbody>
+
+      </table>
+    );
+  }
+}
+
+function mapStateToProps(state){
+  return {
+    weather:state.weather
+  };
+}
+
+export default connect(mapStateToProps)(WeatherList);
+```
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part14-weatherList/images/redchat.png)
