@@ -19,3 +19,5 @@ Checkout this repo, install dependencies, then start the gulp process with the f
 ```
 > npm install --save react-router-dom@4.2.2
 ```
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part17-reactRouter/images/post.png)
