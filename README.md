@@ -711,3 +711,4 @@ export default GoogleMap;
 
 ```
 在src/containers/weatherList中增加谷歌标签：`<td><GoogleMap  lon={lon} lat={lat} /></td>`
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part16-sperate-chat/images/result.png)
