@@ -1,10 +1,4 @@
-# ReduxSimpleStarter
-
-Interested in learning [Redux](https://www.udemy.com/react-redux/)?
-
-### Getting Started
-
-There are two methods for getting started with this repo.
+# Redux构建一个博客系统 构建博客的增删查改，路由。
 
 #### Familiar with Git?
 Checkout this repo, install dependencies, then start the gulp process with the following:
@@ -16,10 +10,12 @@ Checkout this repo, install dependencies, then start the gulp process with the f
 > npm start
 ```
 
-#### Not Familiar with Git?
-Click [here](https://github.com/StephenGrider/ReactStarter/releases) then download the .zip file.  Extract the contents of the zip file, then open your terminal, change to the project directory, and:
+### 将要构建的博客系统。其实是假设了我们已经构建了一个数据库，并且已经有了API。所以我们这个案例的重点任然是redux，而不是全栈，研究后端服务器和构建API。
 
+博客API：https://reduxblog.herokuapp.com/
+
+
+### 安装react-Route
 ```
-> npm install
-> npm start
+> npm install --save react-router-dom@4.2.2
 ```
