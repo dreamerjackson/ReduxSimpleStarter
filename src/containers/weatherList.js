@@ -2,12 +2,8 @@ import React,{Component} from 'react';
 
 import {connect} from 'react-redux';
 
-import {Sparklines,SparklinesLine} from 'react-sparklines';
-// container/book-detail.js：
-//
-// 简单的container，将redux中的activeBook state  与 react component连接在一起。一旦点击事件，促发action createor 。action 提交给每一个reduxer，自定义ActiveBook redudxer带来state改变,state改变带来container改变。
-
-
+import Chat from '../components/chart';
+import GoogleMap from '../components/google_map';
 class WeatherList extends Component{
 
 
@@ -16,23 +12,23 @@ class WeatherList extends Component{
 renderWeather(cityData){
 
   const name = cityData.city.name;
-
   //构建天气数组、传递到  <Sparklines>中
   const temps = cityData.list.map(weather =>weather.main.temp);
+  const pressures = cityData.list.map(weather => weather.main.pressure);
+  const humidities = cityData.list.map(weather => weather.main.humidity);
+  const lon = cityData.city.coord.lon;
+  const lat = cityData.city.coord.lat;
 
   //打印 console.log(temps);
 
   //构建图表
   return(
     <tr key={name}>
-      <td>{name}</td>
+      <td><GoogleMap  lon={lon} lat={lat} /></td>
 
-      <td>
-          <Sparklines height={120} width={180} data={temps}>
-            <SparklinesLine color="red"/>
-          </Sparklines>
-
-      </td>
+      <td><Chat data={temps} color="orange" uint="K"/></td>
+        <td><Chat data={pressures} color="green" uint="pha"/></td>
+          <td><Chat data={humidities} color="black" uint="%"/></td>
     </tr>
   );
 }
@@ -44,9 +40,9 @@ renderWeather(cityData){
         <thead>
           <tr>
             <th>City</th>
-            <th>Temperature</th>
-            <th>pressure</th>
-            <th>Humidity</th>
+            <th>Temperature (K)</th>
+            <th>pressure (pha)</th>
+            <th>Humidity (%)</th>
           </tr>
 
         </thead>
@@ -55,7 +51,6 @@ renderWeather(cityData){
           {/*遍历每一个城市，通过函数renderWeather处理每个函数的数据*/}
           {this.props.weather.map(this.renderWeather)}
         </tbody>
-
       </table>
     );
   }

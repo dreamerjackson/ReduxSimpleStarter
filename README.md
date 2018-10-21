@@ -290,7 +290,7 @@ export default connect(null,mapDispatchToProps)(SearchBar)
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part11-weatherReducer/images/newyork.png) -->
 
-### redux-promise do what?
+<!-- ### redux-promise do what?
 
 在src/actions/index.js中,axios异步操作返回的是promis，转发到redux之后，由于redux-promise middleware对promise精心了处理，所以对转发到redux的action进行了一些处理。
 
@@ -537,4 +537,177 @@ function mapStateToProps(state){
 export default connect(mapStateToProps)(WeatherList);
 ```
 
-![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part15-searchContainer/images/redchat.png)
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part15-searchContainer/images/redchat.png) -->
+
+
+
+
+### 抽离出图表为component
+
+src/components/chat.js:
+
+```js
+import React from 'react';
+
+import {Sparklines,SparklinesLine} from 'react-sparklines';
+
+export default (props)=>{
+  return (
+    <div>
+      <Sparklines height={120} width={180} data={props.data}>
+        <SparklinesLine color={props.color}/>
+      </Sparklines>
+    </div>
+
+  );
+}
+
+```
+
+
+
+### 添加平均线 平均值 单位   
+src/components/chat.js:
+
+```js
+
+import _ from 'lodash';
+import React from 'react';
+import {Sparklines,SparklinesLine,SparklinesReferenceLine} from 'react-sparklines';
+
+function average(data){
+  return _.round((_.sum(data)/data.length));
+}
+
+export default (props)=>{
+  return (
+    <div>
+      <Sparklines height={120} width={180} data={props.data}>
+        <SparklinesLine color={props.color}/>
+        <SparklinesReferenceLine type="avg" />
+      </Sparklines>
+
+      <div>{average(props.data)} {props.uint}</div>
+    </div>
+
+  );
+}
+```
+
+
+
+```js
+import React,{Component} from 'react';
+import {connect} from 'react-redux';
+import Chat from '../components/chart';
+class WeatherList extends Component{
+
+renderWeather(cityData){
+  const name = cityData.city.name;
+  //构建天气数组、传递到  <Sparklines>中
+
+
+  //  const temps = _.map(cityData.list.map(weather =>weather.main.temp),(temp)=>temp-273);
+  const temps = cityData.list.map(weather =>weather.main.temp);
+  const pressures = cityData.list.map(weather => weather.main.pressure);
+  const humidities = cityData.list.map(weather => weather.main.humidity);
+
+  return(
+    <tr key={name}>
+      <td>{name}</td>
+        //添加三个图表
+      <td><Chat data={temps} color="orange" uint="K"/></td>
+        <td><Chat data={pressures} color="green" uint="pha"/></td>
+          <td><Chat data={humidities} color="black" uint="%"/></td>
+    </tr>
+  );
+}
+
+  render(){
+    return(
+      <table className="table table-hover">
+        <thead>
+          <tr>  //添加三个单位
+            <th>City</th>
+            <th>Temperature (K)</th>
+            <th>pressure (pha)</th>
+            <th>Humidity (%)</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {/*遍历每一个城市，通过函数renderWeather处理每个函数的数据*/}
+          {this.props.weather.map(this.renderWeather)}
+        </tbody>
+
+      </table>
+    );
+  }
+}
+
+function mapStateToProps(state){
+  return {
+    weather:state.weather
+  };
+}
+
+export default connect(mapStateToProps)(WeatherList);
+```
+
+###css样式，更好看
+src/style/style.css:
+
+
+
+
+```css
+/* 图表水平垂直居中。 */
+td,th{
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+  /* 搜索框间距 */
+.input-group{
+  margin:20px 0px;
+}
+/* 图表大小 */
+svg{
+  height:150px;
+}
+/* 第一个放谷歌地图 */
+td:first-of-type,td:first-of-type > div{
+  height:200px;
+  width:250px;
+}
+```
+### 谷歌地图
+Components/google_map.js:
+```js
+import React,{Component} from 'react';
+
+
+class GoogleMap extends Component{
+
+  //生命周期函数，render后提交，注意this.refs.map引用的是<div ref="map" />
+  componentDidMount(){
+
+    new google.maps.Map(this.refs.map,{
+        zoom:12,
+        center:{
+          lat:this.props.lat,
+          lng:this.props.lon
+        }
+    });
+  }
+
+render(){
+
+  return <div ref="map" />;
+}
+}
+
+export default GoogleMap;
+
+
+```
+在src/containers/weatherList中增加谷歌标签：`<td><GoogleMap  lon={lon} lat={lat} /></td>`
