@@ -21,3 +21,11 @@ Checkout this repo, install dependencies, then start the gulp process with the f
 ```
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part17-reactRouter/images/post.png)
+
+### react-Route工作原理
+
+传统的方式：发送url到服务器，服务器传回html。
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part17-reactRouter/images/oldserver.png)
+
+react通过js，根据不同的url修改component，render，从而在同一个页面显示不同的内容。
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part17-reactRouter/images/reactRoute.png)
