@@ -71,3 +71,62 @@ ReactDOM.render(
   , document.querySelector('.container'));
 
 ```
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part18-routerDemo/images/route.png)
+
+### action Middleware
+index.js:
+```js
+Middleware:将action中的promise转换到redux中为对象。
+import promise from 'redux-promise';
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+```
+
+
+actions/index.js:
+```js
+import axios from 'axios';
+export const FETCH_POSTS = 'fetch_posts';
+const ROOT_URL = 'http://reduxblog.herokuapp.com/api';
+const API_KEY = '?key=PAPERCLIP1234';
+export function fetchPosts(){
+  const request = axios.get(`${ROOT_URL}/posts${API_KEY}`);
+  return {
+    type:FETCH_POSTS,
+    payload:request
+  };
+}
+```
+
+### reducers
+reducers/index.js:
+```js
+import { combineReducers } from 'redux';
+import PostsReducer from './reducer_posts';
+
+const rootReducer = combineReducers({
+  posts:PostsReducer
+});
+
+export default rootReducer;
+```
+
+
+
+reducers/reducer_posts.js:
+```js
+//mapKey函数构建了一个map映射，  id:对象
+import _ from 'lodash';
+
+import {FETCH_POSTS} from '../actions';
+
+export default function(state={},action){
+switch(action.type){
+  case FETCH_POSTS:
+    return _.mapKeys(action.payload.data,'id');
+  default:
+    return state;
+  }
+}
+```
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part18-routerDemo/images/mapkey.png)
