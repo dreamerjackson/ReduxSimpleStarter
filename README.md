@@ -29,3 +29,45 @@ Checkout this repo, install dependencies, then start the gulp process with the f
 
 react通过js，根据不同的url修改component，render，从而在同一个页面显示不同的内容。
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part17-reactRouter/images/reactRoute.png)
+
+### 使用router demo
+
+index.js:
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+
+//导入router
+import {BrowserRouter,Route} from 'react-router-dom';
+import App from './components/app';
+import reducers from './reducers';
+
+const createStoreWithMiddleware = applyMiddleware()(createStore);
+
+
+class Hello extends React.Component{
+  render(){return <div>Hello!</div>}
+}
+
+class goodbye extends React.Component{
+  render(){return <div>goodbye!</div>}
+}
+
+  //<BrowserRouter>下包含了<Route>,不同的url会显示出不同的react component
+
+ReactDOM.render(
+  <Provider store={createStoreWithMiddleware(reducers)}>
+    <BrowserRouter>
+    <div>
+        header!
+        <Route path="/hello" component={Hello}/>
+        <Route path="/goodbye" component={goodbye}/>
+    </div>
+    </BrowserRouter>
+  </Provider>
+  , document.querySelector('.container'));
+
+```
