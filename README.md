@@ -74,6 +74,12 @@ ReactDOM.render(
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part18-routerDemo/images/route.png)
 
 ### action Middleware
+
+```
+> npm install --save axios redux-promise
+```
+
+
 index.js:
 ```js
 Middleware:将action中的promise转换到redux中为对象。
