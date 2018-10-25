@@ -164,3 +164,53 @@ export default connect(null,{fetchPosts:fetchPosts})(PostsIndex);
 ```
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part19-postIndex/images/post.png)
+
+### 列出post  
+初始化调用  this.props.fetchPosts();这个action，此action异步获取promise数据，通过middleware传递到redux中后变为对象。redux中state更新为post数组，通过container，将redux与component连接在一起。
+
+```js
+
+import _ from 'lodash';
+import React,{Component} from 'react';
+import {connect} from 'react-redux';
+import {fetchPosts} from '../actions/index';
+
+
+class PostsIndex extends Component{
+//生命周期函数，render后调用
+  componentDidMount(){
+    this.props.fetchPosts();
+  }
+
+
+  renderPost(){
+    return _.map(this.props.posts,post=>{
+      return (
+          <li className="list-group-item" key={post.id}>
+              {post.title}
+          </li>
+      );
+    });
+  }
+
+
+  render(){
+      return(
+        <div>
+              <ul className="list-group">
+                  {this.renderPost()}
+              </ul>
+        </div>
+      );　
+  }
+}
+
+function mapStateToProps(state){
+
+return {posts:state.posts};
+
+}
+//ES6语法，fetchPosts是个action，绑定了redux，并且作为了props的参数
+export default connect(mapStateToProps,{fetchPosts:fetchPosts})(PostsIndex);
+
+```
