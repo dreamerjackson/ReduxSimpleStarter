@@ -315,5 +315,91 @@ return {posts:state.posts};
 }
 //ES6语法，fetchPosts是个action，绑定了redux，并且作为了props的参数
 export default connect(mapStateToProps,{fetchPosts:fetchPosts})(PostsIndex);
+```
+
+### redux form
 
 ```
+> npm install --save redux-form@6.6.3
+```
+
+
+reducers/index.js:
+reduxForm绑定redux：
+```js
+import { combineReducers } from 'redux';
+import PostsReducer from './reducer_posts';
+import {reducer as formReducer} from 'redux-form';
+const rootReducer = combineReducers({
+  posts:PostsReducer,
+  form:formReducer
+});
+
+export default rootReducer;
+
+```
+
+
+
+
+> 使用redux form
+
+src/components/posts_new.js:
+```js
+import React,{Component} from 'react';
+import {Field,reduxForm} from 'redux-form';
+class PostsNew extends Component{
+
+
+//  {...field.input} 相当于是 将onChange={field.input.onChange} onFocus={field.input.onFocus} 等都添加到其中
+//传递的field参数用于交互<field>标签 与component jsx标签
+//{field.label}获取label属性
+renderTitleField(field){
+    return(
+        <div className="form-group">
+        <label>{field.label}</label>
+          <input
+            className="form-control"
+            title="text"
+            {...field.input}
+          />
+
+        </div>
+    );
+}
+
+  render(){
+    //component明确了要展示怎样的内容。
+    return (
+        <form>
+            <Field
+              label="title"
+              name="title"
+              component={this.renderTitleField}
+            />
+            <Field
+            label="tags"
+              name="tags"
+              component={this.renderTitleField}
+            />
+            <Field
+              label="content"
+              name="content"
+              component={this.renderTitleField}
+            />
+        </form>
+    );
+  }
+}
+
+//保证'PostNewForm'特殊，类似于
+export default reduxForm({
+  form:'PostNewForm'
+})(PostsNew);
+
+
+```
+
+访问：http://localhost:8080/posts/new
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part21-reduxForm/images/reduxform.png)
