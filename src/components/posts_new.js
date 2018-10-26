@@ -15,23 +15,35 @@ renderTitleField(field){
             title="text"
             {...field.input}
           />
-
+          {field.meta.error}
         </div>
     );
 }
 
+onSubmit(values){
+  console.log(values);
+}
+
+
+
+
   render(){
+        //handleSubmit这个函数是redux-form自带的
+    const {handleSubmit} = this.props;
+
+
     //component明确了要展示怎样的内容。
+    //当验证ok，就会回调this.onSubmit自定义函数，执行某些功能。
     return (
-        <form>
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
             <Field
               label="title"
               name="title"
               component={this.renderTitleField}
             />
             <Field
-            label="tags"
-              name="tags"
+            label="categories"
+              name="categories"
               component={this.renderTitleField}
             />
             <Field
@@ -39,12 +51,35 @@ renderTitleField(field){
               name="content"
               component={this.renderTitleField}
             />
+            <button type="submit" className="btn btn-primary">Submit</button>
         </form>
     );
   }
 }
 
+
+
+function validate(values){
+//console.log(values) -> {title:"asdf",}
+const errors = {};
+//errors.title,errors.categories,  errors.content 必须和  <Field>当中的name属性一致。
+if(!values.title){
+  errors.title = "Enter a title";
+}
+
+if(!values.categories){
+  errors.categories = "Enter some categories";
+}
+if(!values.content){
+  errors.content = "Enter some content please";
+}
+// 如果errors不为空的话，说明输入无效。
+return errors;
+}
+
+
 //保证'PostNewForm'特殊，类似于
 export default reduxForm({
+  validate:validate,
   form:'PostNewForm'
 })(PostsNew);
