@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
 import {Field,reduxForm} from 'redux-form';
+
+import {Link} from 'react-router-dom';
 class PostsNew extends Component{
 
 
@@ -7,8 +9,10 @@ class PostsNew extends Component{
 //传递的field参数用于交互<field>标签 与component jsx标签
 //{field.label}获取label属性
 renderTitleField(field){
+
+  const {meta:{touched,error}} = field;
   // 只有当是touched状态并且为错误的时候，才会有'has-danger'这个booststrap css
-  const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
+  const className = `form-group ${touched && error ? 'has-danger' : ''}`;
     return(
         <div className={className}>
         <label>{field.label}</label>
@@ -17,8 +21,8 @@ renderTitleField(field){
             title="text"
             {...field.input}
           />
-            <div classNmae="text-help">
-              {field.meta.touched?field.meta.error:''}
+            <div className="text-help">
+              {touched?error:''}
             </div>
         </div>
     );
@@ -56,6 +60,7 @@ onSubmit(values){
               component={this.renderTitleField}
             />
             <button type="submit" className="btn btn-primary">Submit</button>
+            <Link to="/" className="btn btn-danger">Cancel</Link>
         </form>
     );
   }

@@ -531,7 +531,7 @@ renderTitleField(field){
             title="text"
             {...field.input}
           />
-            <div classNmae="text-help">
+            <div className="text-help">
               {field.meta.touched?field.meta.error:''}
             </div>
         </div>
@@ -601,6 +601,19 @@ export default reduxForm({
   validate:validate,
   form:'PostNewForm'
 })(PostsNew);
+```
 
+
+### src/components/posts_new.js:添加跳转按钮到首页
+
+<Link to="/" className="btn btn-danger">Cancel</Link>
+
+link本质就是一个a标签。添加css：
+
+style/style.css:
+```css
+form a {
+  margin-left: 5px;
+}
 
 ```
