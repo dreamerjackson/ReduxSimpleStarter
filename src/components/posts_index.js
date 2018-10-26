@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {fetchPosts} from '../actions/index';
-
+import {Link} from 'react-router-dom';
 
 class PostsIndex extends Component{
 //生命周期函数，render后调用
@@ -13,6 +13,9 @@ class PostsIndex extends Component{
 
   renderPost(){
     return _.map(this.props.posts,post=>{
+      if(post.title ==null){
+        return;
+      }
       return (
           <li className="list-group-item" key={post.id}>
               {post.title}
@@ -21,10 +24,18 @@ class PostsIndex extends Component{
     });
   }
 
-
+  // booststrap css 库
   render(){
       return(
-        <div>
+  <div>
+        <div className="text-xs-right">
+          <Link className="btn btn-primary" to="/post/new">
+              Add a Post
+          </Link>
+
+        </div>
+        <h3>Posts</h3>
+
               <ul className="list-group">
                   {this.renderPost()}
               </ul>
