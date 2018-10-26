@@ -408,7 +408,7 @@ export default reduxForm({
 ### valid redux form
 提交表单后自动进行验证。进行某种自定义处理。
   <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-
+src/components/posts_new.js:
 
 ```js
 import React,{Component} from 'react';
@@ -489,3 +489,118 @@ export default reduxForm({
 
 ```
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part22-validReduxForm/images/submit.png)
+
+### redux form state
+在之前，我们什么都没做也会显示错误信息，但是我们希望当用户输入并离开输入框后再显示错误信息。
+redux form 有三种状态
+pristine  /第一次展现的时候，没有任何的输入
+touched   //聚焦输入框后，又失去焦点后的状态
+invalid  //如果输入错误最后会是这个状态
+
+
+只有在touched状态下，才判断是否显示错误信息。
+src/components/posts_new.js:
+```
+  {field.meta.touched?field.meta.error:''}
+```
+
+
+
+### 更好看的redux form 添加css
+当错误时候，会显示红色方框和红色文字
+
+src/components/posts_new.js:
+
+```js
+import React,{Component} from 'react';
+import {Field,reduxForm} from 'redux-form';
+class PostsNew extends Component{
+
+
+//  {...field.input} 相当于是 将onChange={field.input.onChange} onFocus={field.input.onFocus} 等都添加到其中
+//传递的field参数用于交互<field>标签 与component jsx标签
+//{field.label}获取label属性
+renderTitleField(field){
+  // 只有当是touched状态并且为错误的时候，才会有'has-danger'这个booststrap css
+  const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
+    return(
+        <div className={className}>
+        <label>{field.label}</label>
+          <input
+            className="form-control"
+            title="text"
+            {...field.input}
+          />
+            <div classNmae="text-help">
+              {field.meta.touched?field.meta.error:''}
+            </div>
+        </div>
+    );
+}
+
+onSubmit(values){
+  console.log(values);
+}
+
+
+
+
+  render(){
+        //handleSubmit这个函数是redux-form自带的
+    const {handleSubmit} = this.props;
+
+
+    //component明确了要展示怎样的内容。
+    //当验证ok，就会回调this.onSubmit自定义函数，执行某些功能。
+    return (
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+            <Field
+              label="title"
+              name="title"
+              component={this.renderTitleField}
+            />
+            <Field
+            label="categories"
+              name="categories"
+              component={this.renderTitleField}
+            />
+            <Field
+              label="content"
+              name="content"
+              component={this.renderTitleField}
+            />
+            <button type="submit" className="btn btn-primary">Submit</button>
+        </form>
+    );
+  }
+}
+
+
+
+function validate(values){
+//console.log(values) -> {title:"asdf",}
+const errors = {};
+//errors.title,errors.categories,  errors.content 必须和  <Field>当中的name属性一致。
+if(!values.title){
+  errors.title = "Enter a title";
+}
+
+if(!values.categories){
+  errors.categories = "Enter some categories";
+}
+if(!values.content){
+  errors.content = "Enter some content please";
+}
+// 如果errors不为空的话，说明输入无效。
+return errors;
+}
+
+
+//保证'PostNewForm'特殊，类似于
+export default reduxForm({
+  validate:validate,
+  form:'PostNewForm'
+})(PostsNew);
+
+
+```

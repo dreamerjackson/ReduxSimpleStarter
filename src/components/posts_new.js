@@ -7,15 +7,19 @@ class PostsNew extends Component{
 //传递的field参数用于交互<field>标签 与component jsx标签
 //{field.label}获取label属性
 renderTitleField(field){
+  // 只有当是touched状态并且为错误的时候，才会有'has-danger'这个booststrap css
+  const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
     return(
-        <div className="form-group">
+        <div className={className}>
         <label>{field.label}</label>
           <input
             className="form-control"
             title="text"
             {...field.input}
           />
-          {field.meta.error}
+            <div classNmae="text-help">
+              {field.meta.touched?field.meta.error:''}
+            </div>
         </div>
     );
 }
