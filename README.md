@@ -488,4 +488,4 @@ export default reduxForm({
 })(PostsNew);
 
 ```
-![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part22-validReduxForm/images/reduxform.png)
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part22-validReduxForm/images/submit.png)
