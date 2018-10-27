@@ -13,9 +13,9 @@ export function fetchPosts(){
     payload:request
   };
 }
-
-export function createPost(values){
-  const request = axios.post(`${ROOT_URL}/posts${API_KEY}`,values);
+//callback回调，then函数同步处理
+export function createPost(values,callback){
+  const request = axios.post(`${ROOT_URL}/posts${API_KEY}`,values).then(()=>callback());
 
   return{
       type:CREATE_POST,

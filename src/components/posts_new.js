@@ -29,9 +29,12 @@ renderTitleField(field){
     );
 }
 
+////第二个参数传递了一个函数。
 onSubmit(values){
-  //console.log(values);
-  this.props.createPost(values);
+  //console.log(values);-->{title:"123",categories:"123",content:"123"}
+  this.props.createPost(values,()=>{
+    this.props.history.push('/');
+  });
 }
 
 

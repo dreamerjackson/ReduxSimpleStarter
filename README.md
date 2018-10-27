@@ -759,3 +759,80 @@ export default reduxForm({
 ```
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part24-submitToPost/images/submitToPost.gif)
+
+
+### posts/new 提交表单后，等到post完成 自动提交到 /，这就需要callback回调。
+src/components/posts_new.js:
+
+```js
+//第二个参数传递了一个函数。
+onSubmit(values){
+  //console.log(values);-->{title:"123",categories:"123",content:"123"}
+  this.props.createPost(values,()=>{
+    this.props.history.push('/');
+  });
+}
+
+```
+
+actions/index.js:
+
+```js
+
+//callback回调，then函数同步处理
+export function createPost(values,callback){
+  const request = axios.post(`${ROOT_URL}/posts${API_KEY}`,values).then(()=>callback());
+
+  return{
+      type:CREATE_POST,
+      payload:request
+  };
+}
+
+```
+
+
+### 那就是显示博客详细的信息。
+
+components/posts_show.js:
+
+```js
+import React,{Component} from 'react';
+class PostShow extends Component{
+
+  render(){
+      return(
+          <div>
+              Post Show!
+          </div>
+
+      );
+  };
+}
+
+export default PostShow;
+```
+
+index.js:
+
+注意这个Route的顺序是很有讲究的。/posts/:id代表的是url会匹配后面任何的东西，如/posts/1，/posts/123....。如果顺序错了，例如
+<Route path="/posts/:id" component={PostShow}/>
+<Route path="/posts/new" component={PostsNew}/>
+那么/posts/new会匹配第一个，不会匹配第二个。
+
+
+```js
+ReactDOM.render(
+  <Provider store={createStoreWithMiddleware(reducers)}>
+    <BrowserRouter>
+    <div>
+    <Switch>
+        <Route path="/posts/new" component={PostsNew}/>
+        <Route path="/posts/:id" component={PostShow}/>
+        <Route path="/" component={PostsIndex}/>
+    </Switch>
+    </div>
+    </BrowserRouter>
+  </Provider>
+  , document.querySelector('.container'));
+```
