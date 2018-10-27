@@ -836,3 +836,88 @@ ReactDOM.render(
   </Provider>
   , document.querySelector('.container'));
 ```
+### 访问某个博客文章的细节页面，获取单个post。
+action:
+
+src/actions/index.js:
+```js
+export function fetchPost(id){
+  const request = axios.get(`${ROOT_URL}/posts/${id}${API_KEY}`);
+
+  return{
+      type:FETCH_POST,
+      payload:request
+  };
+}
+```
+redux 处理：添加单个post对象到state中
+
+reducers/reducer_posts.js:
+
+```js
+import _ from 'lodash';
+
+import {FETCH_POSTS,FETCH_POST} from '../actions';
+//mapKey函数构建了一个map映射，  id:对象
+export default function(state={},action){
+switch(action.type){
+
+  case FETCH_POST:
+  //等价于：
+  // const post = action.payload.data;
+  //将state副本给了newState
+  // const newState = {...state};
+  // newState[post.id]=post;
+  // return newState;
+  //如果直接的访问posts/id，则只会get这个id下的内容，并添加到 redux state当中。
+    return {...state,[action.payload.data.id]:action.payload.data};
+  case FETCH_POSTS:
+    return _.mapKeys(action.payload.data,'id');
+  default:
+    return state;
+  }
+}
+```
+绑定 action redux component：
+
+```js
+import React,{Component} from 'react';
+import {connect} from 'react-redux';
+import {fetchPost} from '../actions';
+
+class PostShow extends Component{
+  //posts[this.props.match.params.id];
+  //the post we want to show. this.props.match.params.id是我们获取的url中的id，他是我们react-router自动为我们添加到props中的。
+  //  <Route path="/posts/:id" component={PostShow}/> 例如访问posts/123的时候，那么this.props.match.params.id就是123。
+componentDidMount(){
+  const {id} = this.props.match.params;
+  this.props.fetchPost(id);
+}
+  render(){
+
+      return(
+          <div>
+              Post Show!
+          </div>
+
+      );
+  };
+}
+
+// 传统的方式：返回的是一个数组对象到props中，有时候我们只是希望返回props我们需要的那个特定的post。
+
+// function mapStateToProps({posts}){
+//
+// return {posts};
+//
+// }
+
+
+//ownProps等价于this.props 在这里比较特俗的用法
+function mapStateToProps({posts},ownProps){
+return {post:posts[ownProps.match.params.id]};
+}
+export default connect(mapStateToProps,{fetchPost})(PostShow);
+
+
+```
