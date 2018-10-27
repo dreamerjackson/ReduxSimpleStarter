@@ -2,9 +2,10 @@ import React,{Component} from 'react';
 import {Field,reduxForm} from 'redux-form';
 
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {createPost} from '../actions';
+
 class PostsNew extends Component{
-
-
 //  {...field.input} 相当于是 将onChange={field.input.onChange} onFocus={field.input.onFocus} 等都添加到其中
 //传递的field参数用于交互<field>标签 与component jsx标签
 //{field.label}获取label属性
@@ -29,7 +30,8 @@ renderTitleField(field){
 }
 
 onSubmit(values){
-  console.log(values);
+  //console.log(values);
+  this.props.createPost(values);
 }
 
 
@@ -91,4 +93,6 @@ return errors;
 export default reduxForm({
   validate:validate,
   form:'PostNewForm'
-})(PostsNew);
+})(
+  connect(null,{createPost})(PostsNew)
+);

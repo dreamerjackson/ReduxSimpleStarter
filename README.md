@@ -617,3 +617,7 @@ form a {
 }
 
 ```
+
+
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part24-submitToPost/images/submitToPost.gif)
