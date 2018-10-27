@@ -1002,3 +1002,38 @@ renderPost(){
 
 ```
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part27-postDetailShow/images/postDetail.gif)
+
+### delete posts
+components/posts_show.js:
+按钮
+点击事件调用action
+```js
+onDeleteClick(){
+  const {id} = this.props.match.params;
+  this.props.deletePost(id,()=>{
+      this.props.history.push('/');
+  });
+
+}
+<button
+  className="btn btn-danger pull-xs-right"
+  onClick={this.onDeleteClick.bind(this)}
+>
+DELETE POST
+</button>
+```
+
+action
+actions/index.js:
+
+```js
+export function deletePost(id,callback){
+  const request = axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`).then(()=>callback());
+  return{
+      type:DELETE_POST,
+      payload:id
+  };
+}
+```
+
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part27-postDetailShow/images/delete.gif)
