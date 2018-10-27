@@ -836,6 +836,7 @@ ReactDOM.render(
   </Provider>
   , document.querySelector('.container'));
 ```
+
 ### 访问某个博客文章的细节页面，获取单个post。
 action:
 
@@ -918,6 +919,86 @@ function mapStateToProps({posts},ownProps){
 return {post:posts[ownProps.match.params.id]};
 }
 export default connect(mapStateToProps,{fetchPost})(PostShow);
+```
+
+
+
+
+
+###  显示细节 错误处理
+
+
+```js
+
+import React,{Component} from 'react';
+import {connect} from 'react-redux';
+import {fetchPost} from '../actions';
+
+class PostShow extends Component{
+  //posts[this.props.match.params.id];
+  //the post we want to show. this.props.match.params.id是我们获取的url中的id，他是我们react-router自动为我们添加到props中的。
+  //  <Route path="/posts/:id" component={PostShow}/> 例如访问posts/123的时候，那么this.props.match.params.id就是123。
+componentDidMount(){
+  const {id} = this.props.match.params;
+  this.props.fetchPost(id);
+}
+  render(){
+
+      const {post} = this.props;
+
+      if(!post){
+        return <div>Loading.....</div>
+      }
+      return(
+          <div>
+              <h3>{post.title}</h3>
+              <h6>Categories:{post.categories}</h6>
+              <p>{post.content}</p>
+          </div>
+      );
+  };
+}
+
+// 传统的方式：返回的是一个数组对象到props中，有时候我们只是希望返回我们需要的那个特定的post。
+
+// function mapStateToProps({posts}){
+//
+// return {posts};
+//
+// }
+
+function mapStateToProps({posts},ownProps){
+
+return {post:posts[ownProps.match.params.id]};
+
+}
+export default connect(mapStateToProps,{fetchPost})(PostShow);
 
 
 ```
+
+### 细节页面添加返回首页的按钮
+components/posts_show.js:
+细节页面按钮，可以退出：
+<Link className="btn btn-primary" to="/">Back To Index!</Link>
+
+components/posts_index.js:
+在首页点击某个标题后会显示细节页面
+```
+renderPost(){
+  return _.map(this.props.posts,post=>{
+    if(post.title ==null){
+      return;
+    }
+    return (
+        <li className="list-group-item" key={post.id}>
+          ` <Link to={`/posts/${post.id}`}> `
+            {post.title}
+            </Link>
+        </li>
+    );
+  });
+}
+
+```
+![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part27-postDetailShow/images/postDetail.gif)
