@@ -1,9 +1,12 @@
 import _ from 'lodash';
 
-import {FETCH_POSTS,FETCH_POST} from '../actions';
+import {FETCH_POSTS,FETCH_POST,DELETE_POST} from '../actions';
 //mapKey函数构建了一个map映射，  id:对象
 export default function(state={},action){
 switch(action.type){
+  //删除 ，参考_.reject函数。
+  case DELETE_POST:
+    return _.omit(state,action.payload);
 
   case FETCH_POST:
   //等价于：

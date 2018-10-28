@@ -1037,3 +1037,11 @@ export function deletePost(id,callback){
 ```
 
 ![image](https://github.com/dreamerjackson/ReduxSimpleStarter/blob/part27-postDetailShow/images/delete.gif)
+
+redux删除：
+reducers/reducer_posts.js:
+```
+//删除 ，参考_.reject函数。
+case DELETE_POST:
+  return _.omit(state,action.payload);
+```
